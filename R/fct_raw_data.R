@@ -45,7 +45,7 @@ remove_rows <- function(data_df = NULL, rows = NULL) {
 #' @noRd
 calc_qc <- function(data_df) {
   # get the number of files
-  num_files <- length(unique(data_df$short_filename))
+  num_files <- length(unique(data_df$short_filename[data_df$sequence == 1]))
   
   qc_df <- data_df %>%
     tidyr::pivot_longer(cols = c(-.data$Index, -.data$filename, -.data$compound, -.data$short_filename, -.data$sequence, -.data$acq_order),
