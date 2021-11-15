@@ -30,7 +30,8 @@ app_ui <- function(request) {
           mod_raw_data_ui(id = "raw_data")
         ),
         tabPanel(
-          title = "Meta data"
+          title = "Meta data",
+          mod_meta_data_ui(id = "meta_data")
         )
       ),
       # end data

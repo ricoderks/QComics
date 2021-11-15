@@ -38,6 +38,7 @@ golem::add_module( name = "meta_data" ) # meta-data section
 ## Add helper functions ----
 ## Creates fct_* and utils_*
 golem::add_fct( "files" )
+golem::add_fct( "raw_data" )
 # golem::add_utils( "helpers" )
 
 ## External resources

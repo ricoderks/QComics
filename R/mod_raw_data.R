@@ -42,7 +42,7 @@ mod_raw_data_ui <- function(id){
 
 #' data Server Functions
 #'
-#' @importFrom DT renderDataTable datatable
+#' @importFrom DT renderDataTable datatable dataTableProxy selectRows
 #' 
 #' @noRd 
 mod_raw_data_server <- function(id, r){
@@ -52,9 +52,6 @@ mod_raw_data_server <- function(id, r){
     # generate table to show the content of the result files
     output$tbl_mq_data <- DT::renderDataTable({
       req(r$mq_data)
-      
-      # for now
-      r$merge_data <- NULL
       
       # if there is no data don't show table
       if(!is.null(r$merge_data)) {
@@ -74,5 +71,40 @@ mod_raw_data_server <- function(id, r){
       } 
     },
     server = FALSE)
+    
+    
+    observeEvent(input$btnReset, {
+      req(r$merge_data)
+      
+      proxy <- DT::dataTableProxy("tbl_mq_data")
+      
+      # remove row selection
+      proxy %>% 
+        DT::selectRows(NULL)
+      
+      # empty the global storage of rows
+      r$s <- NULL
+    })
+    
+    output$rows_removed <- renderPrint({
+      req(r$merge_data)
+      
+      r$s <- input$tbl_mq_data_rows_selected
+      
+      if (!is.null(r$s)) {
+        # show which rows are removed
+        cat("These rows will be removed from the data set :\n\n")
+        cat(r$s, sep = ", ")
+        
+        # remove the rows
+        r$clean_data <- remove_rows(data_df = r$merge_data,
+                                    rows = r$s)
+                                    
+      } else {
+        # no row selected
+        r$clean_data <- r$merge_data
+      }
+    })
+    
   })
 }

@@ -72,3 +72,107 @@ read_mq_file <- function(file) {
   
   return(data_df)
 }
+
+
+
+#' @title Check the meta data file
+#' 
+#' @description Check if the meta data file contains the correct columns
+#'
+#' @param file path to file 
+#'
+#' @return return TRUE or FALSE
+#'
+#' @author Rico Derks
+#'
+#' @importFrom readr read_delim
+#'
+#' @noRd
+# check the meta data file
+check_meta_file <- function(file) {
+  # several columns should be present
+  # return TRUE if all is fine and FALSE if not
+  file_cols <- colnames(readr::read_delim(file = file,
+                                          n_max = 0,
+                                          delim = ",",
+                                          show_col_types = FALSE))
+  
+  # the column names I want
+  my_cols <- c("filename", "sequence", "acq_order")
+  
+  return(all(my_cols %in% file_cols))
+}
+
+
+
+
+#' @title Read meta data file
+#' 
+#' @description Read a meta data file.
+#' 
+#' @param file path to the file
+#'
+#' @return data frame with the meta data
+#'
+#' @author Rico Derks
+#' 
+#' @importFrom readr read_delim cols_only col_integer col_character
+#' 
+#' @noRd
+read_meta_file <- function(file) {
+  data_df <- readr::read_csv(file = file,
+                             col_types = readr::cols_only(filename = readr::col_character(),
+                                                          sequence = readr::col_integer(),
+                                                          acq_order = readr::col_integer()),
+                             show_col_types = FALSE)
+}
+
+
+
+
+#' @title Merge data
+#'
+#' @description Merge the multiquant data with the meta data
+#' 
+#' @param mq_data data.frame with multiquant data
+#' @param meta_data data.frame with meta data
+#'
+#' @return the merge data
+#' 
+#' @importFrom dplyr left_join group_by filter ungroup
+#' @importFrom magrittr %>%
+#' @importFrom rlang .data
+#' 
+#' @author Rico Derks
+#'
+#' @noRd
+merge_data <- function(mq_data = NULL, meta_data = NULL) {
+  merge_df <- mq_data %>% 
+    left_join(y = meta_data,
+              by = c("short_filename" = "filename")) %>% 
+    # remove compounds which have no peaks at all
+    group_by(.data$compound) %>%
+    filter(any(!is.na(.data$area))) %>%
+    ungroup()
+  
+  return(merge_df)
+}
+
+# if (!is.null(values$mq_data) & check_meta_file(values$meta_path) == TRUE) {
+#   values$meta_data <- read_csv(file = values$meta_path,
+#                                col_types = cols_only(filename = col_character(),
+#                                                      sequence = col_integer(),
+#                                                      acq_order = col_integer()))
+#   # merge meta and mq data
+#   values$merge_data <- values$mq_data %>%
+#     left_join(y = values$meta_data,
+#               by = c("short_filename" = "filename")) %>%
+#     # remove compounds which have no peaks at all
+#     group_by(compound) %>%
+#     filter(any(!is.na(area))) %>%
+#     ungroup()
+#
+#   values$num_files <- length(unique(values$merge_data %>%
+#                                       filter(sequence == 1) %>%
+#                                       select(short_filename) %>%
+#                                       pull()))
