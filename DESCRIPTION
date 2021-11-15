@@ -19,7 +19,9 @@ Imports:
     rlang,
     sessioninfo,
     shiny (>= 1.7.1),
+    stats,
     stringr,
+    tidyr,
     utils
 Encoding: UTF-8
 LazyData: true

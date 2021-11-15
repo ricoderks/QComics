@@ -38,6 +38,7 @@ remove_rows <- function(data_df = NULL, rows = NULL) {
 #' @importFrom tidyr pivot_longer
 #' @importFrom magrittr %>%
 #' @importFrom rlang .data
+#' @importFrom stats sd
 #'
 #' @author Rico Derks
 #
@@ -52,13 +53,13 @@ calc_qc <- function(data_df) {
                         values_to = "value") %>% 
     dplyr::group_by(.data$compound, .data$parameter) %>% 
     dplyr:: mutate(avg_all = mean(.data$value, na.rm = TRUE),
-                   rsd_all = sd(.data$value, na.rm = TRUE) / .data$avg_all * 100,
+                   rsd_all = stats::sd(.data$value, na.rm = TRUE) / .data$avg_all * 100,
                    rsd_all_show = paste(.data$compound, " - ", format(.data$rsd_all, digits = 2, nsmall = 1), "%", sep = ""),
                    minmax_all = min(.data$value, na.rm = TRUE) / max(.data$value, na.rm = TRUE),
                    max_y = max(.data$value, na.rm = TRUE)) %>% 
     dplyr::group_by(.data$compound, .data$sequence, .data$parameter) %>% 
     dplyr::mutate(avg_per = mean(.data$value, na.rm = TRUE),
-                  rsd_per = sd(.data$value, na.rm = TRUE) / .data$avg_per * 100,
+                  rsd_per = stats::sd(.data$value, na.rm = TRUE) / .data$avg_per * 100,
                   rsd_per_show = paste(format(.data$rsd_per, digits = 2, nsmall = 1), "%", sep = ""),
                   minmax_per = min(.data$value, na.rm = TRUE) / max(.data$value, na.rm = TRUE),
                   max_y = ifelse(.data$value == max(.data$value, na.rm = TRUE), .data$max_y, NA),

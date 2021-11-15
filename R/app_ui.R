@@ -41,10 +41,12 @@ app_ui <- function(request) {
         title = "QC overview",
         "Tables :",
         tabPanel(
-          title = "All sequences"
+          title = "All sequences",
+          mod_qc_tables_ui(id = "table_all_seq")
         ),
         tabPanel(
-          title  = "Per sequence"
+          title  = "Per sequence",
+          mod_qc_tables_ui(id = "table_per_seq")
         ),
         "----",
         "Graphs :",

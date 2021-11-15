@@ -20,6 +20,14 @@ app_server <- function( input, output, session ) {
   mod_meta_data_server(id = "meta_data",
                        r = r)
   
+  # QC tables
+  # all sequences together
+  mod_qc_tables_server(id = "table_all_seq",
+                       r = r)
+  # per sequence
+  mod_qc_tables_server(id = "table_per_seq",
+                       r = r)
+  
   # about section
   mod_about_server(id = "about")
   
