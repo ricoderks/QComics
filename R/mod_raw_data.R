@@ -87,23 +87,37 @@ mod_raw_data_server <- function(id, r){
     })
     
     output$rows_removed <- renderPrint({
-      req(r$merge_data)
+      req(r$clean_data)
       
-      r$s <- input$tbl_mq_data_rows_selected
+      # r$s <- input$tbl_mq_data_rows_selected
       
       if (!is.null(r$s)) {
         # show which rows are removed
         cat("These rows will be removed from the data set :\n\n")
         cat(r$s, sep = ", ")
-        
+      } else {
+        # no row selected
+        cat("")
+        # r$clean_data <- r$merge_data
+      }
+    })
+    
+    observe({
+      req(r$merge_data)
+      
+      r$s <- input$tbl_mq_data_rows_selected
+      
+      if (!is.null(r$s)) {
         # remove the rows
         r$clean_data <- remove_rows(data_df = r$merge_data,
                                     rows = r$s)
-                                    
       } else {
         # no row selected
         r$clean_data <- r$merge_data
       }
+      
+      # calculate the QC values
+      r$qc_data <- calc_qc(data_df = r$clean_data)
     })
     
   })
