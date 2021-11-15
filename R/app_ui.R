@@ -26,7 +26,8 @@ app_ui <- function(request) {
       navbarMenu(
         title = "Data",
         tabPanel(
-          title = "Raw data"
+          title = "Raw data",
+          mod_raw_data_ui(id = "raw_data")
         ),
         tabPanel(
           title = "Meta data"

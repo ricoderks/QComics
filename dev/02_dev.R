@@ -21,6 +21,10 @@ usethis::use_dev_package( "ggCPM",
                           remote = "ricoderks/ggCPM" )
 usethis::use_package( "sessioninfo" )
 usethis::use_package( "rlang" )
+usethis::use_package( "readr" )
+usethis::use_package( "dplyr" )
+usethis::use_package( "magrittr" )
+usethis::use_package( "stringr" )
 
 ## Add modules ----
 ## Create a module infrastructure in R/
@@ -28,10 +32,12 @@ golem::add_module( name = "help" ) # help section
 golem::add_module( name = "about" ) # about section
 golem::add_module( name = "files" ) # files section
 golem::add_module( name = "report" ) # report section
+golem::add_module( name = "raw_data" ) # raw-data section
+golem::add_module( name = "meta_data" ) # meta-data section
 
 ## Add helper functions ----
 ## Creates fct_* and utils_*
-# golem::add_fct( "helpers" ) 
+golem::add_fct( "files" )
 # golem::add_utils( "helpers" )
 
 ## External resources

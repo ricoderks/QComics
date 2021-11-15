@@ -23,7 +23,7 @@ mod_report_ui <- function(id){
 #' report Server Functions
 #'
 #' @noRd 
-mod_report_server <- function(id){
+mod_report_server <- function(id, r){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
