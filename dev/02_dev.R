@@ -27,6 +27,8 @@ usethis::use_package( "magrittr" )
 usethis::use_package( "stringr" )
 usethis::use_package( "tidyr" )
 usethis::use_package( "stats" )
+usethis::use_package( "forcats" )
+usethis::use_package( "ggplot2" )
 
 ## Add modules ----
 ## Create a module infrastructure in R/
@@ -37,12 +39,14 @@ golem::add_module( name = "report" ) # report section
 golem::add_module( name = "raw_data" ) # raw-data section
 golem::add_module( name = "meta_data" ) # meta-data section
 golem::add_module( name = "qc_tables") # QC overview tables
+golem::add_module( name = "qc_graphs" ) # QC overview graphs
 
 ## Add helper functions ----
 ## Creates fct_* and utils_*
 golem::add_fct( "files" )
 golem::add_fct( "raw_data" )
 golem::add_fct( "qc_tables" )
+golem::add_fct( "qc_graphs" )
 # golem::add_utils( "helpers" )
 
 ## External resources

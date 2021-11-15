@@ -28,6 +28,14 @@ app_server <- function( input, output, session ) {
   mod_qc_tables_server(id = "table_per_seq",
                        r = r)
   
+  # QC graphs
+  # all sequences together
+  mod_qc_graphs_server(id = "graphs_all_seq",
+                       r = r)
+  # per sequence
+  mod_qc_graphs_server(id = "graphs_per_seq",
+                       r = r)
+  
   # about section
   mod_about_server(id = "about")
   
