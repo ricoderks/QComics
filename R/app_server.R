@@ -7,4 +7,7 @@
 app_server <- function( input, output, session ) {
   # Your application server logic 
   
+  # about section
+  mod_about_server(id = "about")
+  
 }

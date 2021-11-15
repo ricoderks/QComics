@@ -29,7 +29,7 @@ You can install the development version of QComics like so:
 remotes::install_github("ricoderks/QComics")
 ```
 
-## Rim
+## Run
 
 Run the app by:
 

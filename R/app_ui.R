@@ -3,14 +3,71 @@
 #' @param request Internal parameter for `{shiny}`. 
 #'     DO NOT REMOVE.
 #' @import shiny
+#' @importFrom utils packageVersion
+#' 
 #' @noRd
 app_ui <- function(request) {
   tagList(
     # Leave this function for adding external resources
     golem_add_external_resources(),
+    
     # Your application UI logic 
-    fluidPage(
-      h1("QComics")
+    navbarPage(
+      title = paste0("QC lipidomics / metabolomics | v", utils::packageVersion("QComics")),
+      
+      # Files
+      tabPanel(
+        title = "Files"
+      ),
+      # end files
+      
+      # data
+      navbarMenu(
+        title = "Data",
+        tabPanel(
+          title = "Raw data"
+        ),
+        tabPanel(
+          title = "Meta data"
+        )
+      ),
+      # end data
+      
+      # QC overview
+      navbarMenu(
+        title = "QC overview",
+        "Tables :",
+        tabPanel(
+          title = "All sequences"
+        ),
+        tabPanel(
+          title  = "Per sequence"
+        ),
+        "----",
+        "Graphs :",
+        tabPanel(
+          title = "All sequences"
+        ),
+        tabPanel(
+          title = "Per sequence"
+        )
+      ),
+      # end QC overview
+      
+      # Help
+      navbarMenu(
+        title = "Help",
+        tabPanel(
+          title = "Help",
+          mod_help_ui(id = "help")
+        ),
+        "----",
+        tabPanel(
+          title = "About",
+          mod_about_ui(id = "about")
+        )
+      )
+      # end Help
     )
   )
 }
@@ -28,7 +85,7 @@ golem_add_external_resources <- function(){
   add_resource_path(
     'www', app_sys('app/www')
   )
- 
+  
   tags$head(
     favicon(),
     bundle_resources(
