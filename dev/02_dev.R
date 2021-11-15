@@ -26,6 +26,8 @@ usethis::use_package( "rlang" )
 ## Create a module infrastructure in R/
 golem::add_module( name = "help" ) # help section
 golem::add_module( name = "about" ) # about section
+golem::add_module( name = "files" ) # files section
+golem::add_module( name = "report" ) # report section
 
 ## Add helper functions ----
 ## Creates fct_* and utils_*

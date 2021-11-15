@@ -17,7 +17,8 @@ app_ui <- function(request) {
       
       # Files
       tabPanel(
-        title = "Files"
+        title = "Files",
+        mod_files_ui(id = "files")
       ),
       # end files
       
