@@ -1,10 +1,14 @@
 #' Run the Shiny Application
+#' @title Run the app
+#'
+#' @description Run the app 
 #'
 #' @param ... arguments to pass to golem_opts. 
 #' See `?golem::get_golem_options` for more details.
 #' @inheritParams shiny::shinyApp
 #'
 #' @export
+#' 
 #' @importFrom shiny shinyApp
 #' @importFrom golem with_golem_options 
 run_app <- function(
@@ -25,4 +29,16 @@ run_app <- function(
     ), 
     golem_opts = list(...)
   )
+}
+
+
+#' run_in_browser - shortcut to launch in_browser
+#' @title Run the app in the broweser
+#'
+#' @description Run the app in the browser when started manually from Rstudio
+#'
+#' @export
+#'
+run_in_browser <- function(){
+  run_app(options = list(launch.browser = TRUE))
 }

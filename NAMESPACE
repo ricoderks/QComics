@@ -3,6 +3,7 @@
 export(make_nice_table)
 export(make_qc_graph)
 export(run_app)
+export(run_in_browser)
 import(shiny)
 importFrom(DT,dataTableOutput)
 importFrom(DT,dataTableProxy)
