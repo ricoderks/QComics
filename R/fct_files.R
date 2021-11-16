@@ -157,22 +157,3 @@ merge_data <- function(mq_data = NULL, meta_data = NULL) {
   
   return(merge_df)
 }
-
-# if (!is.null(values$mq_data) & check_meta_file(values$meta_path) == TRUE) {
-#   values$meta_data <- read_csv(file = values$meta_path,
-#                                col_types = cols_only(filename = col_character(),
-#                                                      sequence = col_integer(),
-#                                                      acq_order = col_integer()))
-#   # merge meta and mq data
-#   values$merge_data <- values$mq_data %>%
-#     left_join(y = values$meta_data,
-#               by = c("short_filename" = "filename")) %>%
-#     # remove compounds which have no peaks at all
-#     group_by(compound) %>%
-#     filter(any(!is.na(area))) %>%
-#     ungroup()
-#
-#   values$num_files <- length(unique(values$merge_data %>%
-#                                       filter(sequence == 1) %>%
-#                                       select(short_filename) %>%
-#                                       pull()))

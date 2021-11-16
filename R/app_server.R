@@ -13,9 +13,6 @@ app_server <- function( input, output, session ) {
   # files section
   mod_files_server(id = "files",
                    r = r)
-  # add the module for report
-  # mod_report_server(id = "report",
-  #                   r = r)
 
   # data section
   mod_raw_data_server(id = "raw_data",
