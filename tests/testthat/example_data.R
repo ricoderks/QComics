@@ -151,6 +151,33 @@ qc_data <- structure(list(Index = c(1L, 1L, 1L, 2L, 2L, 2L, 3L, 3L, 3L, 4L, 4L, 
                                "tbl", "data.frame"), 
                      row.names = c(NA, -27L))
 
+# nice df for all sequences
+nice_df_all <- structure(list(compound = c("Peak01", "Peak02", "Peak03"), 
+                              avg_all_area = c(101171, 99915, 100758),
+                              rsd_all_area = c("0.47", "0.48", "1.11"), 
+                              minmax_all_area = c("0.99", "0.99", "0.98"), 
+                              avg_all_ret_time = c("1.20", "5.60", "9.60"), 
+                              rsd_all_ret_time = c("0.0", "0.0", "0.0"), 
+                              avg_all_width50 = c("0.093", "0.103", "0.090"), 
+                              rsd_all_width50 = c("16.4", " 5.6", "19.2"
+                              )), 
+                         row.names = c(NA, -3L), 
+                         class = c("tbl_df", "tbl", "data.frame"
+                         ))
+# nice df per sequence
+nice_df_per <- structure(list(compound = c("Peak01", "Peak02", "Peak03"), 
+                              sequence = c(1, 1, 1), 
+                              avg_per_area = c(101171, 99915, 100758), 
+                              rsd_per_area = c("0.47", "0.48", "1.11"), 
+                              minmax_per_area = c("0.99", "0.99", "0.98"), 
+                              avg_per_ret_time = c("1.20", "5.60", "9.60"), 
+                              rsd_per_ret_time = c("0.0", "0.0", "0.0"), 
+                              avg_per_width50 = c("0.093", "0.103", "0.090"), 
+                              rsd_per_width50 = c("16.4", " 5.6", "19.2")), 
+                         row.names = c(NA, -3L), 
+                         class = c("tbl_df", "tbl", "data.frame"))
+
+
 # save everything as a .Rdata file
-save(areas, ret_times, widths, meta_data, mq_data, merged_data, qc_data,
+save(areas, ret_times, widths, meta_data, mq_data, merged_data, qc_data, nice_df_all, nice_df_per,
      file = "tests/testthat/example_data.Rdata")
