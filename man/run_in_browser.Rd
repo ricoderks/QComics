@@ -6,9 +6,6 @@
 \usage{
 run_in_browser()
 }
-\value{
-
-}
 \description{
 Run the app in the browser when started manually from Rstudio
 }

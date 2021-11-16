@@ -62,7 +62,8 @@ golem::add_fct( "qc_graphs" )
 
 ## Tests ----
 ## Add one line by test you want to create
-# usethis::use_test( "app" )
+usethis::use_test( "meta_data" ) # tests for reading meta data
+usethis::use_test( "mq_data" ) # tests for reading mq data
 
 # Documentation
 
@@ -75,7 +76,7 @@ golem::add_fct( "qc_graphs" )
 usethis::use_coverage()
 
 # Create a summary readme for the testthat subdirectory
-covrpage::covrpage()
+# covrpage::covrpage()
 
 ## CI ----
 ## Use this part of the script if you need to set up a CI

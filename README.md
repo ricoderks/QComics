@@ -7,6 +7,8 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![Codecov test
+coverage](https://codecov.io/gh/ricoderks/QComics/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ricoderks/QComics?branch=main)
 <!-- badges: end -->
 
 The goal of the `QComics` package is to have a quick overview of the
