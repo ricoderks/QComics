@@ -19,6 +19,7 @@ Imports:
     processx,
     readr,
     rlang,
+    rmarkdown,
     sessioninfo,
     shiny (>= 1.7.1),
     stats,

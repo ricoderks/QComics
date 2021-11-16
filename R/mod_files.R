@@ -68,7 +68,9 @@ mod_files_ui <- function(id){
         )
       ),
       
-      mod_report_ui(id = "report")
+      # add the ui for the report
+      # ns is needed here because I'am calling a module in a module
+      mod_report_ui(id = ns("report"))
     )
   )
 }
@@ -118,15 +120,15 @@ mod_files_server <- function(id, r){
     # read the meta data
     observe({
       req(input$meta_file)
-
+      
       # store the real filename
       r$meta_file <- input$meta_file$name
       r$meta_path <- input$meta_file$datapath
-
+      
       if(check_meta_file(file = r$meta_path) == TRUE) {
         # read the meta file
         r$meta_data <- read_meta_file(file = r$meta_path)
-      
+        
       } else {
         r$meta_file <- -1
       }
