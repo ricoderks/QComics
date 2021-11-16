@@ -43,7 +43,9 @@ remove_rows <- function(data_df = NULL, rows = NULL) {
 #' @author Rico Derks
 #
 #' @noRd
-calc_qc <- function(data_df) {
+calc_qc <- function(data_df = NULL) {
+  
+  if(!is.null(data_df)) {
   # get the number of files
   num_files <- length(unique(data_df$short_filename[data_df$sequence == 1]))
   
@@ -65,7 +67,10 @@ calc_qc <- function(data_df) {
                   max_y = ifelse(.data$value == max(.data$value, na.rm = TRUE), .data$max_y, NA),
                   max_x = ifelse(.data$value == max(.data$value, na.rm = TRUE), num_files, NA)) %>% 
     dplyr::ungroup()
-  
+  } else {
+    message("'data_df' doesn't contain any data!")
+    qc_df <- NULL
+  }
   
   return(qc_df)
 }

@@ -58,6 +58,9 @@ golem::use_recommended_deps()
 golem::use_utils_ui()
 golem::use_utils_server()
 
+# you want to use the magrittr pipe
+usethis::use_pipe()
+
 # You're now set! ----
 
 # go to dev/02_dev.R
