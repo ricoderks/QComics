@@ -1,6 +1,6 @@
 Package: QComics
 Title: Shiny for quality control of -omics data
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: person('Rico', 'Derks', email = 'r.j.e.derks@lumc.nl', role = c('cre', 'aut'))
 Description: Shiny to have a look at the quality of -omics data.
 License: GPL (>= 3)
