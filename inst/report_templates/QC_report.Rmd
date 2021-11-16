@@ -15,6 +15,7 @@ knitr::opts_chunk$set(echo = FALSE)
 library(magrittr)
 library(DT)
 library(sessioninfo)
+library(QComics)
 
 # get the data
 my_data <- params$my_data
