@@ -7,6 +7,8 @@
 #' @noRd 
 #'
 #' @importFrom shiny NS tagList 
+#' @importFrom DT dataTableOutput
+#' 
 mod_meta_data_ui <- function(id){
   ns <- NS(id)
   tagList(
@@ -23,11 +25,25 @@ mod_meta_data_ui <- function(id){
 
 #' meta_data Server Functions
 #'
+#' @importFrom DT renderDataTable datatable
+#'
 #' @noRd 
 mod_meta_data_server <- function(id, r){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
     
-    
+    # show the meta data file content
+    output$tbl_meta_data <- DT::renderDataTable({
+      req(r$meta_data)
+      
+      # if there is no data don't show table
+      if (!is.null(r$meta_data)) {
+        r$meta_data %>% 
+          DT::datatable(options = list(dom = "ltp",
+                                       pageLength = 25),
+                        selection = "none")
+      }
+    },
+    server = FALSE)
   })
 }
