@@ -187,6 +187,10 @@ read_meta_file <- function(file = NULL) {
 #' @param mq_data data.frame with multiquant data
 #' @param meta_data data.frame with meta data
 #'
+#' @details 'mq_data' should contain a column named 'short_filename' and 
+#'    'meta_data' should contain a column named 'filename'. Both columns contain
+#'    the file name of the sample.
+#'
 #' @return the merge data
 #' 
 #' @importFrom dplyr left_join group_by filter ungroup
@@ -197,13 +201,18 @@ read_meta_file <- function(file = NULL) {
 #'
 #' @noRd
 merge_data <- function(mq_data = NULL, meta_data = NULL) {
-  merge_df <- mq_data %>% 
-    left_join(y = meta_data,
-              by = c("short_filename" = "filename")) %>% 
-    # remove compounds which have no peaks at all
-    group_by(.data$compound) %>%
-    filter(any(!is.na(.data$area))) %>%
-    ungroup()
+  if(!is.null(mq_data) & !is.null(meta_data)) {
+    merge_df <- mq_data %>% 
+      left_join(y = meta_data,
+                by = c("short_filename" = "filename")) %>% 
+      # remove compounds which have no peaks at all
+      group_by(.data$compound) %>%
+      filter(any(!is.na(.data$area))) %>%
+      ungroup()
+  } else {
+    message("'mq_data' or 'meta_data' is NULL!")
+    merge_df <- NULL
+  }
   
   return(merge_df)
 }
