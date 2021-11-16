@@ -65,6 +65,8 @@ golem::add_fct( "qc_graphs" )
 usethis::use_test( "meta_data" ) # tests for reading meta data
 usethis::use_test( "mq_data" ) # tests for reading mq data
 usethis::use_test( "merge_data" ) # test for merging data
+usethis::use_test( "qc_calc" ) # test for the qc calculations
+usethis::use_test( "qc_table" ) # test for creating the qc tables
 
 # Documentation
 
