@@ -11,15 +11,124 @@ params:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 
+# try to load minimum of libraries
+library(magrittr)
+library(DT)
+library(sessioninfo)
+
+# get the data
+my_data <- params$my_data
+
+# determine the number of compounds
+num_compounds <- length(unique(my_data$compound))
 ```
 
-# Intrudction
+```{r prepare_tables}
+## prepare the tables 
+# all sequences
+all_seq_data <- make_nice_table(data_df = my_data,
+                                sequence = "all")
 
-Will this work.
+# per sequence
+per_seq_data <- make_nice_table(data_df = my_data,
+                                sequence = "per")
+```
+
+`r paste("# ", params$info[1], sep = "")`
+
+`r params$info[2]`
+
+## All sequences {.tabset}
+
+```{r show_table_all_sequences}
+all_seq_data  %>% 
+  datatable(caption = "Table 1: Results over all sequences.",
+            options = list(dom = "t",
+                           ordering = FALSE,
+                           columnDefs = list(list(className = 'dt-center', 
+                                                  targets = 1:7)),
+                           pageLength = -1),
+            rownames = FALSE,
+            selection = "none",
+            colnames = c("Compound", "Mean peak area", "RSD peak area [%]", "Min/Max ratio", "Mean retention time [min]", 
+                         "RSD retention time [%]", "Mean peak width at 50% [min]", "RSD peak width at 50% [%]")) %>% 
+  formatStyle('rsd_all_area',
+              color = styleInterval(c(0, 20), c('black', 'black', 'red'))) %>% 
+  formatStyle('rsd_all_ret_time',
+              color = styleInterval(c(0, 1), c('black', 'black', 'red')))
+```
+
+### Peak area
+
+```{r plot_all_peakarea, fig.width=10, fig.height=ceiling(num_compounds / 2) * 2.5, warning=FALSE, message=FALSE}
+make_qc_graph(data_df = my_data,
+              yaxis = "area",
+              sequence = "all")
+```
+
+### Retention time
+
+```{r plot_all_rettime, fig.width=10, fig.height=ceiling(num_compounds / 2) * 2.5, warning=FALSE, message=FALSE}
+make_qc_graph(data_df = my_data,
+              yaxis = "ret_time",
+              sequence = "all")
+```
+
+### Peak width at 50%
+
+```{r plot_all_width, fig.width=10, fig.height=ceiling(num_compounds / 2) * 2.5, warning=FALSE, message=FALSE}
+make_qc_graph(data_df = my_data,
+              yaxis = "width50",
+              sequence = "all")
+```
+
+## Per sequence {.tabset}
+
+```{r table_per_seq}
+per_seq_data %>% 
+  datatable(caption = "Table 2: Results per sequence.",
+            options = list(dom = "tp",
+                           ordering = FALSE,
+                           columnDefs = list(list(className = 'dt-center', 
+                                                  targets = 1:8)),
+                           pageLength = num_compounds),
+            rownames = FALSE,
+            selection = "none",
+            colnames = c("Compound", "Sequence","Mean peak area", "RSD peak area [%]", "Min/Max ratio", "Mean retention time [min]", 
+                         "RSD retention time [%]", "Mean peak width at 50% [min]", "RSD peak width at 50% [%]")) %>% 
+  formatStyle('rsd_per_area',
+              color = styleInterval(c(0, 15), c('black', 'black', 'red'))) %>%
+  formatStyle('rsd_per_ret_time',
+              color = styleInterval(c(0, 1), c('black', 'black', 'red')))
+```
+
+### Peak area
+
+```{r plot_per_peakarea, fig.width=10, fig.height=ceiling(num_compounds * 1.25), warning=FALSE, message=FALSE}
+make_qc_graph(data_df = my_data,
+              yaxis = "area",
+              sequence = "per")
+```
+
+### Retention time
+
+```{r plot_per_rettime, fig.width=10, fig.height=ceiling(num_compounds * 1.25), warning=FALSE, message=FALSE}
+make_qc_graph(data_df = my_data,
+              yaxis = "ret_time",
+              sequence = "per")
+```
+
+### Peak width at 50%
+
+```{r plot_per_width, fig.width=10, fig.height=ceiling(num_compounds * 1.25), warning=FALSE, message=FALSE}
+make_qc_graph(data_df = my_data,
+              yaxis = "width50",
+              sequence = "per")
+```
 
 # Session info
 
 ```{r session_info}
-sessioninfo::session_info()
+session_info()
 ```
 

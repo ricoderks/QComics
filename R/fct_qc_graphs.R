@@ -19,8 +19,8 @@
 #' @importFrom ggplot2 ggplot aes_string geom_point geom_line geom_label aes guides labs expand_limits theme element_text scale_y_continuous facet_grid guide_legend labeller facet_wrap
 #' @importFrom ggCPM theme_cpm
 #'
+#' @export
 #'
-#' @noRd
 make_qc_graph <- function(data_df = NULL, yaxis = NULL, sequence = c("all", "per")) {
   
   y_label <- switch(

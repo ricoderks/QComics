@@ -82,7 +82,7 @@ mod_report_server <- function(id, r){
                   overwrite = TRUE)
         
         # setup parameters to pass to Rmd document
-        params <- list(my_data = r$clean_data,
+        params <- list(my_data = r$qc_data,
                        info = r$info)
         
         # show progress

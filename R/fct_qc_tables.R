@@ -15,8 +15,7 @@
 #' @importFrom dplyr group_by filter ungroup select row_number mutate arrange
 #' @importFrom tidyr pivot_wider
 #'
-#'
-#' @noRd
+#' @export
 make_nice_table <- function(data_df = NULL, sequence = c("all", "per")) {
   nice_df <- switch(
     sequence,
