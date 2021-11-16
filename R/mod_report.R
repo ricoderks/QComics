@@ -77,7 +77,10 @@ mod_report_server <- function(id, r){
         # create copy of Rmd document in temp location
         # here you should have write permission
         temp_report <- file.path(tempdir(), "QC_report.Rmd")
-        file.copy(from = "inst/report_templates/QC_report.Rmd", # when published this needs to change, during dev inst/ needs to be there?!!?
+        # create the location of the original Rmd file
+        report_file <- system.file("report_templates", "QC_report.Rmd",
+                                   package = "QComics")
+        file.copy(from = report_file, 
                   to = temp_report,
                   overwrite = TRUE)
         
