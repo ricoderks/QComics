@@ -62,7 +62,8 @@ golem::add_fct( "qc_graphs" )
 
 ## Tests ----
 ## Add one line by test you want to create
-# usethis::use_test( "app" )
+usethis::use_test( "meta_data" ) # tests for reading meta data
+usethis::use_test( "mq_data" ) # tests for reading mq data
 
 # Documentation
 

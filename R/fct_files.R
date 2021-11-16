@@ -13,12 +13,24 @@
 #' @importFrom readr read_delim
 #'
 #' @noRd
-check_result_file <- function(file){
-  # get the column names
-  file_cols <- colnames(readr::read_delim(file = file,
-                                          n_max = 0,
-                                          delim = "\t",
-                                          show_col_types = FALSE))
+check_result_file <- function(file = NULL){
+  # check if file is not null
+  if(!is.null(file)) {
+    # does the file exist
+    if(file.exists(file)) {
+      # get the column names
+      file_cols <- colnames(readr::read_delim(file = file,
+                                              n_max = 0,
+                                              delim = "\t",
+                                              show_col_types = FALSE))
+    }  else {
+      message("'file' does not exist!")
+      file_cols <- NULL
+    } 
+  } else {
+    message("No file specified!")
+    file_cols <- NULL
+  }
   
   # the column names I want
   my_cols <- c("Index", "Original Filename", "Component Name", "Area", "Retention Time", "Width at 50%")
@@ -47,28 +59,40 @@ check_result_file <- function(file){
 #' @importFrom stringr str_match
 #' 
 #' @noRd
-read_mq_file <- function(file) {
-  data_df <- readr::read_delim(
-    file = file,
-    col_types = readr::cols_only(Index = readr::col_integer(),
-                                 `Original Filename` = readr::col_character(),
-                                 `Component Name` = readr::col_character(),
-                                 Area = readr::col_double(),
-                                 `Retention Time` = readr::col_double(),
-                                 `Width at 50%` = readr::col_double()),
-    delim = "\t",
-    na = c("", "NA", "N/A"),
-    show_col_types = FALSE) %>% 
-    dplyr::mutate(
-      short_filename = str_match(string = .data$`Original Filename`,
-                                 pattern = "([a-zA-Z_0-9]*)(\\.wiff)")[, 2]) %>% 
-    dplyr::select(.data$Index, .data$`Original Filename`, .data$`Component Name`, .data$short_filename, .data$Area, .data$`Retention Time`, .data$`Width at 50%`) %>% 
-    dplyr::rename(
-      filename = .data$`Original Filename`,
-      compound = .data$`Component Name`,
-      area = .data$Area,
-      ret_time = .data$`Retention Time`,
-      width50 = .data$`Width at 50%`)
+read_mq_file <- function(file = NULL) {
+  # check if file is not null
+  if(!is.null(file)) {
+    # does the file exist
+    if(file.exists(file)) {
+      data_df <- readr::read_delim(
+        file = file,
+        col_types = readr::cols_only(Index = readr::col_integer(),
+                                     `Original Filename` = readr::col_character(),
+                                     `Component Name` = readr::col_character(),
+                                     Area = readr::col_double(),
+                                     `Retention Time` = readr::col_double(),
+                                     `Width at 50%` = readr::col_double()),
+        delim = "\t",
+        na = c("", "NA", "N/A"),
+        show_col_types = FALSE) %>% 
+        dplyr::mutate(
+          short_filename = str_match(string = .data$`Original Filename`,
+                                     pattern = "([a-zA-Z_0-9]*)(\\.wiff)")[, 2]) %>% 
+        dplyr::select(.data$Index, .data$`Original Filename`, .data$`Component Name`, .data$short_filename, .data$Area, .data$`Retention Time`, .data$`Width at 50%`) %>% 
+        dplyr::rename(
+          filename = .data$`Original Filename`,
+          compound = .data$`Component Name`,
+          area = .data$Area,
+          ret_time = .data$`Retention Time`,
+          width50 = .data$`Width at 50%`)
+    }  else {
+      message("'file' does not exist!")
+      data_df <- NULL
+    } 
+  } else {
+    message("No file specified!")
+    data_df <- NULL
+  }
   
   return(data_df)
 }
@@ -89,13 +113,25 @@ read_mq_file <- function(file) {
 #'
 #' @noRd
 # check the meta data file
-check_meta_file <- function(file) {
+check_meta_file <- function(file = NULL) {
   # several columns should be present
   # return TRUE if all is fine and FALSE if not
-  file_cols <- colnames(readr::read_delim(file = file,
-                                          n_max = 0,
-                                          delim = ",",
-                                          show_col_types = FALSE))
+  # check if file is not null
+  if(!is.null(file)) {
+    # does the file exist
+    if(file.exists(file)) {
+      file_cols <- colnames(readr::read_delim(file = file,
+                                              n_max = 0,
+                                              delim = ",",
+                                              show_col_types = FALSE))
+    } else {
+      message("'file' does not exist!")
+      file_cols <- NULL
+    } 
+  } else {
+    message("No file specified!")
+    file_cols <- NULL
+  }
   
   # the column names I want
   my_cols <- c("filename", "sequence", "acq_order")
@@ -119,12 +155,26 @@ check_meta_file <- function(file) {
 #' @importFrom readr read_delim cols_only col_integer col_character
 #' 
 #' @noRd
-read_meta_file <- function(file) {
-  data_df <- readr::read_csv(file = file,
-                             col_types = readr::cols_only(filename = readr::col_character(),
-                                                          sequence = readr::col_integer(),
-                                                          acq_order = readr::col_integer()),
-                             show_col_types = FALSE)
+read_meta_file <- function(file = NULL) {
+  # check if file is not null
+  if(!is.null(file)) {
+    # does the file exist
+    if(file.exists(file)) {
+      data_df <- readr::read_csv(file = file,
+                                 col_types = readr::cols_only(filename = readr::col_character(),
+                                                              sequence = readr::col_integer(),
+                                                              acq_order = readr::col_integer()),
+                                 show_col_types = FALSE)
+    } else {
+      message("'file' does not exist!")
+      data_df <- NULL
+    }
+  } else {
+    message("No file specified!")
+    data_df <- NULL
+  }
+  
+  return(data_df)
 }
 
 
