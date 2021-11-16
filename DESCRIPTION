@@ -4,6 +4,8 @@ Version: 0.2.0
 Authors@R: person('Rico', 'Derks', email = 'r.j.e.derks@lumc.nl', role = c('cre', 'aut'))
 Description: Shiny app to have a look at the quality of -omics data.
 License: GPL (>= 3)
+Depends: 
+    R (>= 3.5.0)
 Imports: 
     attempt,
     config (>= 0.3.1),
