@@ -28,10 +28,10 @@ make_nice_table <- function(data_df = NULL, sequence = c("all", "per")) {
           dplyr::group_by(.data$compound, .data$parameter) |> 
           dplyr::filter(dplyr::row_number() == 1) |> 
           dplyr::ungroup() |> 
-          dplyr::select(.data$compound, .data$avg_all, .data$rsd_all, .data$minmax_all, .data$parameter) |> 
-          tidyr::pivot_wider(values_from = c(.data$avg_all, .data$rsd_all, .data$minmax_all), names_from = .data$parameter) |> 
-          dplyr::select(.data$compound, .data$avg_all_area, .data$rsd_all_area, .data$minmax_all_area, .data$avg_all_ret_time, .data$rsd_all_ret_time, .data$avg_all_width50, .data$rsd_all_width50) |> 
-          dplyr::mutate(avg_all_area = round(.data$avg_all_area),
+          dplyr::select("compound", "avg_all", "rsd_all", "minmax_all", "parameter") |> 
+          tidyr::pivot_wider(values_from = c("avg_all", "rsd_all", "minmax_all"), names_from = "parameter") |> 
+          dplyr::select("compound", "avg_all_area", "rsd_all_area", "minmax_all_area", "avg_all_ret_time", "rsd_all_ret_time", "avg_all_width50", "rsd_all_width50") |> 
+          dplyr::mutate(avg_all_area = round(avg_all_area),
                         rsd_all_area = format(.data$rsd_all_area, digits = 2, nsmall = 1),
                         minmax_all_area = format(.data$minmax_all_area, digits = 2, nsmall = 1),
                         avg_all_ret_time = format(.data$avg_all_ret_time, digits = 2, nsmall = 2),
@@ -45,10 +45,10 @@ make_nice_table <- function(data_df = NULL, sequence = c("all", "per")) {
           dplyr::group_by(.data$compound, .data$sequence, .data$parameter) |> 
           dplyr::filter(dplyr::row_number() == 1) |> 
           dplyr::ungroup() |> 
-          dplyr::select(.data$compound, .data$sequence, .data$avg_per, .data$rsd_per, .data$minmax_per, .data$parameter) |> 
-          tidyr::pivot_wider(values_from = c(.data$avg_per, .data$rsd_per, .data$minmax_per), names_from = .data$parameter) |> 
-          dplyr::select(.data$compound, .data$sequence, .data$avg_per_area, .data$rsd_per_area, .data$minmax_per_area, .data$avg_per_ret_time, .data$rsd_per_ret_time, .data$avg_per_width50, .data$rsd_per_width50) |> 
-          dplyr::mutate(avg_per_area = round(.data$avg_per_area),
+          dplyr::select("compound", "sequence", "avg_per", "rsd_per", "minmax_per", "parameter") |> 
+          tidyr::pivot_wider(values_from = c("avg_per", "rsd_per", "minmax_per"), names_from = "parameter") |> 
+          dplyr::select("compound", "sequence", "avg_per_area", "rsd_per_area", "minmax_per_area", "avg_per_ret_time", "rsd_per_ret_time", "avg_per_width50", "rsd_per_width50") |> 
+          dplyr::mutate(avg_per_area = round(avg_per_area),
                         rsd_per_area = format(.data$rsd_per_area, digits = 2, nsmall = 1),
                         minmax_per_area = format(.data$minmax_per_area, digits = 2, nsmall = 1),
                         avg_per_ret_time = format(.data$avg_per_ret_time, digits = 2, nsmall = 2),

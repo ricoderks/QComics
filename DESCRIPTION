@@ -1,6 +1,6 @@
 Package: QComics
 Title: Shiny app for quality control of -omics data
-Version: 0.2.1.9002
+Version: 0.2.1.9003
 Authors@R: person(given = "Rico",
                   family = "Derks",
                   email = "r.j.e.derks@lumc.nl",
