@@ -7,7 +7,7 @@
 #' @noRd 
 #'
 #' @importFrom shiny NS tagList 
-#' @importFrom DT dataTableOutput
+#' @importFrom DT DTOutput
 #' 
 mod_meta_data_ui <- function(id){
   ns <- NS(id)
@@ -15,7 +15,7 @@ mod_meta_data_ui <- function(id){
     fluidPage(
       fluidRow(
         width = 12,
-        DT::dataTableOutput(
+        DT::DTOutput(
           outputId = ns("tbl_meta_data")
         )
       )
@@ -25,7 +25,7 @@ mod_meta_data_ui <- function(id){
 
 #' meta_data Server Functions
 #'
-#' @importFrom DT renderDataTable datatable
+#' @importFrom DT renderDT datatable
 #'
 #' @noRd 
 mod_meta_data_server <- function(id, r){
@@ -33,12 +33,12 @@ mod_meta_data_server <- function(id, r){
     ns <- session$ns
     
     # show the meta data file content
-    output$tbl_meta_data <- DT::renderDataTable({
+    output$tbl_meta_data <- DT::renderDT({
       req(r$meta_data)
       
       # if there is no data don't show table
       if (!is.null(r$meta_data)) {
-        r$meta_data %>% 
+        r$meta_data |>  
           DT::datatable(options = list(dom = "ltp",
                                        pageLength = 25),
                         selection = "none")

@@ -7,7 +7,7 @@
 #' @noRd 
 #'
 #' @importFrom shiny NS tagList 
-#' @importFrom DT dataTableOutput
+#' @importFrom DT DTOutput
 mod_raw_data_ui <- function(id){
   ns <- NS(id)
   tagList(
@@ -30,7 +30,7 @@ mod_raw_data_ui <- function(id){
         column(
           width = 12,
           div(
-            DT::dataTableOutput(
+            DT::DTOutput(
               outputId = ns("tbl_mq_data")
             ), 
             style = "font-size: 80%")
@@ -42,7 +42,7 @@ mod_raw_data_ui <- function(id){
 
 #' data Server Functions
 #'
-#' @importFrom DT renderDataTable datatable dataTableProxy selectRows
+#' @importFrom DT renderDT datatable dataTableProxy selectRows
 #' 
 #' @noRd 
 mod_raw_data_server <- function(id, r){
@@ -50,20 +50,20 @@ mod_raw_data_server <- function(id, r){
     ns <- session$ns
     
     # generate table to show the content of the result files
-    output$tbl_mq_data <- DT::renderDataTable({
+    output$tbl_mq_data <- DT::renderDT({
       req(r$mq_data)
       
       # if there is no data don't show table
       if(!is.null(r$merge_data)) {
         # show merged data
-        r$merge_data %>%
-          # select(Index, filename, compound, short_filename, area, ret_time, width50, sequence, acq_order) %>%
+        r$merge_data |>
+          # select(Index, filename, compound, short_filename, area, ret_time, width50, sequence, acq_order) |>
           DT::datatable(options = list(dom = "ltp",
                                        pageLength = 25),
                         colnames = c("Index", "Filename", "Compound", "Short filename", "Area", "Retention time [min]", "Width at 50%", "Sequence", "Acquisition order"))
       } else if (!is.null(r$mq_data)) {
         # show only the mq data
-        r$mq_data %>% 
+        r$mq_data |> 
           DT::datatable(options = list(dom = "ltp",
                                        pageLength = 25),
                         selection = "none",
@@ -79,7 +79,7 @@ mod_raw_data_server <- function(id, r){
       proxy <- DT::dataTableProxy("tbl_mq_data")
       
       # remove row selection
-      proxy %>% 
+      proxy |> 
         DT::selectRows(NULL)
       
       # empty the global storage of rows
