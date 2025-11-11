@@ -43,6 +43,9 @@ make_qc_graph <- function(data_df = NULL, yaxis = NULL, sequence = c("all", "per
                                  dplyr::pull())
   }
   
+  # set NA's to zero, for nicer plotting
+  data_df$value[is.na(data_df$value)] <- 0
+
   my_plot <- data_df |>
     dplyr::filter(.data$parameter == yaxis) |> 
     dplyr::mutate(short_filename = forcats::fct_reorder(.data$short_filename, .data$acq_order),
