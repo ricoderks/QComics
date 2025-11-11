@@ -76,7 +76,7 @@ read_mq_file <- function(file = NULL) {
         show_col_types = FALSE) |> 
         dplyr::mutate(
           short_filename = str_match(string = .data$`Original Filename`,
-                                     pattern = "([a-zA-Z_0-9]*)(\\.wiff)")[, 2]) |> 
+                                     pattern = "([a-zA-Z_0-9 _\\-]*)(\\.wiff)")[, 2]) |> 
         dplyr::select(.data$Index, .data$`Original Filename`, .data$`Component Name`, .data$short_filename, .data$Area, .data$`Retention Time`, .data$`Width at 50%`) |> 
         dplyr::rename(
           filename = .data$`Original Filename`,
