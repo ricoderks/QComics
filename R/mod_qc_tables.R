@@ -7,7 +7,7 @@
 #' @noRd 
 #'
 #' @importFrom shiny NS tagList 
-#' @importFrom DT dataTableOutput
+#' @importFrom DT DTOutput
 mod_qc_tables_ui <- function(id){
   ns <- NS(id)
   tagList(
@@ -15,7 +15,7 @@ mod_qc_tables_ui <- function(id){
       fluidRow(
         column(
           width = 12,
-          DT::dataTableOutput(
+          DT::DTOutput(
             outputId = ns("tbl_qc")
           )
         )
@@ -26,7 +26,7 @@ mod_qc_tables_ui <- function(id){
 
 #' qc_tables Server Functions
 #'
-#' @importFrom DT renderDataTable datatable styleInterval formatStyle
+#' @importFrom DT renderDT datatable styleInterval formatStyle
 #'
 #' @noRd 
 mod_qc_tables_server <- function(id, r){
@@ -34,7 +34,7 @@ mod_qc_tables_server <- function(id, r){
     ns <- session$ns
     
     # table with qc values
-    output$tbl_qc <- DT::renderDataTable({
+    output$tbl_qc <- DT::renderDT({
       req(r$qc_data)
       
       # make the data.frame nice
@@ -80,7 +80,7 @@ mod_qc_tables_server <- function(id, r){
                     colnames = strsplit(x = ifelse(id == "table_all_seq",
                                                    col_names_all,
                                                    col_names_per),
-                                        split = ",")[[1]]) %>%
+                                        split = ",")[[1]]) |>
         DT::formatStyle(columns = ifelse(id == "table_all_seq",
                                          area_rsd_col_all,
                                          area_rsd_col_per),
@@ -88,7 +88,7 @@ mod_qc_tables_server <- function(id, r){
                                                      ifelse(id == "table_all_seq",
                                                             area_limit_all,
                                                             area_limit_per)),
-                                                   limit_colors)) %>%
+                                                   limit_colors)) |>
         DT::formatStyle(columns = ifelse(id == "table_all_seq",
                                          rt_rsd_col_all,
                                          rt_rsd_col_per),

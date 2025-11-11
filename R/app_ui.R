@@ -12,24 +12,24 @@ app_ui <- function(request) {
     golem_add_external_resources(),
     
     # Your application UI logic 
-    navbarPage(
+    shiny::navbarPage(
       title = paste0("QC lipidomics / metabolomics | v", utils::packageVersion("QComics")),
       
       # Files
-      tabPanel(
+      shiny::tabPanel(
         title = "Files",
         mod_files_ui(id = "files")
       ),
       # end files
       
       # data
-      navbarMenu(
+      shiny::navbarMenu(
         title = "Data",
-        tabPanel(
+        shiny::tabPanel(
           title = "Raw data",
           mod_raw_data_ui(id = "raw_data")
         ),
-        tabPanel(
+        shiny::tabPanel(
           title = "Meta data",
           mod_meta_data_ui(id = "meta_data")
         )
@@ -37,24 +37,24 @@ app_ui <- function(request) {
       # end data
       
       # QC overview
-      navbarMenu(
+      shiny::navbarMenu(
         title = "QC overview",
         "Tables :",
-        tabPanel(
+        shiny::tabPanel(
           title = "All sequences",
           mod_qc_tables_ui(id = "table_all_seq")
         ),
-        tabPanel(
+        shiny::tabPanel(
           title  = "Per sequence",
           mod_qc_tables_ui(id = "table_per_seq")
         ),
         "----",
         "Graphs :",
-        tabPanel(
+        shiny::tabPanel(
           title = "All sequences",
           mod_qc_graphs_ui(id = "graphs_all_seq")
         ),
-        tabPanel(
+        shiny::tabPanel(
           title = "Per sequence",
           mod_qc_graphs_ui(id = "graphs_per_seq")
         )
@@ -62,14 +62,14 @@ app_ui <- function(request) {
       # end QC overview
       
       # Help
-      navbarMenu(
+      shiny::navbarMenu(
         title = "Help",
-        tabPanel(
+        shiny::tabPanel(
           title = "Help",
           mod_help_ui(id = "help")
         ),
         "----",
-        tabPanel(
+        shiny::tabPanel(
           title = "About",
           mod_about_ui(id = "about")
         )
@@ -93,7 +93,7 @@ golem_add_external_resources <- function(){
     'www', app_sys('app/www')
   )
   
-  tags$head(
+  shiny::tags$head(
     favicon(),
     bundle_resources(
       path = app_sys('app/www'),

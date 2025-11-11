@@ -55,7 +55,6 @@ check_result_file <- function(file = NULL){
 #' @importFrom readr read_delim cols_only col_integer col_character col_double
 #' @importFrom dplyr mutate select rename
 #' @importFrom rlang .data
-#' @importFrom magrittr %>%
 #' @importFrom stringr str_match
 #' 
 #' @noRd
@@ -74,11 +73,11 @@ read_mq_file <- function(file = NULL) {
                                      `Width at 50%` = readr::col_double()),
         delim = "\t",
         na = c("", "NA", "N/A"),
-        show_col_types = FALSE) %>% 
+        show_col_types = FALSE) |> 
         dplyr::mutate(
           short_filename = str_match(string = .data$`Original Filename`,
-                                     pattern = "([a-zA-Z_0-9]*)(\\.wiff)")[, 2]) %>% 
-        dplyr::select(.data$Index, .data$`Original Filename`, .data$`Component Name`, .data$short_filename, .data$Area, .data$`Retention Time`, .data$`Width at 50%`) %>% 
+                                     pattern = "([a-zA-Z_0-9 _\\-]*)(\\.wiff)")[, 2]) |> 
+        dplyr::select(.data$Index, .data$`Original Filename`, .data$`Component Name`, .data$short_filename, .data$Area, .data$`Retention Time`, .data$`Width at 50%`) |> 
         dplyr::rename(
           filename = .data$`Original Filename`,
           compound = .data$`Component Name`,
@@ -194,7 +193,6 @@ read_meta_file <- function(file = NULL) {
 #' @return the merge data
 #' 
 #' @importFrom dplyr left_join group_by filter ungroup
-#' @importFrom magrittr %>%
 #' @importFrom rlang .data
 #' 
 #' @author Rico Derks
@@ -202,12 +200,12 @@ read_meta_file <- function(file = NULL) {
 #' @noRd
 merge_data <- function(mq_data = NULL, meta_data = NULL) {
   if(!is.null(mq_data) & !is.null(meta_data)) {
-    merge_df <- mq_data %>% 
+    merge_df <- mq_data |> 
       left_join(y = meta_data,
-                by = c("short_filename" = "filename")) %>% 
+                by = c("short_filename" = "filename")) |> 
       # remove compounds which have no peaks at all
-      group_by(.data$compound) %>%
-      filter(any(!is.na(.data$area))) %>%
+      group_by(.data$compound) |>
+      filter(any(!is.na(.data$area))) |>
       ungroup()
   } else {
     message("'mq_data' or 'meta_data' is NULL!")
