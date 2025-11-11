@@ -54,7 +54,6 @@ check_result_file <- function(file = NULL){
 #' 
 #' @importFrom readr read_delim cols_only col_integer col_character col_double
 #' @importFrom dplyr mutate select rename
-#' @importFrom rlang .data
 #' @importFrom stringr str_match
 #' 
 #' @noRd
@@ -77,13 +76,13 @@ read_mq_file <- function(file = NULL) {
         dplyr::mutate(
           short_filename = str_match(string = .data$`Original Filename`,
                                      pattern = "([a-zA-Z_0-9 _\\-]*)(\\.wiff)")[, 2]) |> 
-        dplyr::select(.data$Index, .data$`Original Filename`, .data$`Component Name`, .data$short_filename, .data$Area, .data$`Retention Time`, .data$`Width at 50%`) |> 
+        dplyr::select("Index", "Original Filename", "Component Name", "short_filename", "Area", "Retention Time", "Width at 50%") |> 
         dplyr::rename(
-          filename = .data$`Original Filename`,
-          compound = .data$`Component Name`,
-          area = .data$Area,
-          ret_time = .data$`Retention Time`,
-          width50 = .data$`Width at 50%`)
+          filename = "Original Filename",
+          compound = "Component Name",
+          area = "Area",
+          ret_time = "Retention Time",
+          width50 = "Width at 50%")
     }  else {
       message("'file' does not exist!")
       data_df <- NULL
@@ -201,12 +200,12 @@ read_meta_file <- function(file = NULL) {
 merge_data <- function(mq_data = NULL, meta_data = NULL) {
   if(!is.null(mq_data) & !is.null(meta_data)) {
     merge_df <- mq_data |> 
-      left_join(y = meta_data,
-                by = c("short_filename" = "filename")) |> 
+      dplyr::left_join(y = meta_data,
+                       by = c("short_filename" = "filename")) |> 
       # remove compounds which have no peaks at all
-      group_by(.data$compound) |>
-      filter(any(!is.na(.data$area))) |>
-      ungroup()
+      dplyr::group_by(.data$compound) |>
+      dplyr::filter(any(!is.na(.data$area))) |>
+      dplyr::ungroup()
   } else {
     message("'mq_data' or 'meta_data' is NULL!")
     merge_df <- NULL

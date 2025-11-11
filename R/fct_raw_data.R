@@ -48,7 +48,7 @@ calc_qc <- function(data_df = NULL) {
   num_files <- length(unique(data_df$short_filename[data_df$sequence == 1]))
   
   qc_df <- data_df |>
-    tidyr::pivot_longer(cols = c(-.data$Index, -.data$filename, -.data$compound, -.data$short_filename, -.data$sequence, -.data$acq_order),
+    tidyr::pivot_longer(cols = c(-"Index", -"filename", -"compound", -"short_filename", -"sequence", -"acq_order"),
                         names_to = "parameter",
                         values_to = "value") |> 
     dplyr::group_by(.data$compound, .data$parameter) |> 
